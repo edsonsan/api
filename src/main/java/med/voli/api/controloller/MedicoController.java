@@ -1,7 +1,6 @@
 package med.voli.api.controloller;
 
 import jakarta.validation.Valid;
-
 import med.voli.api.medico.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -11,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/medicos") //http://msdae:8080/contribuinte
+@RequestMapping("/medicos")
 public class MedicoController {
     @Autowired
     private MedicoRepository repository;
@@ -25,8 +24,6 @@ public class MedicoController {
     @GetMapping
     public Page<DadosListagemMedico> listar(@PageableDefault(sort={"nome"}) Pageable paginacao){
          System.out.println(paginacao);
-         //return repository.findAll(paginacao).map(DadosListagemMedico::new);
-        //return repository.findAllByUserativoTrue(paginacao).map(DadosListagemMedico::new);
         return repository.findAllByUserativoTrue(paginacao).map(DadosListagemMedico::new);
     }
     @PutMapping
@@ -39,7 +36,6 @@ public class MedicoController {
     @DeleteMapping("/{id}")
     @Transactional
     public void excluir(@PathVariable Long id){
-        //repository.deleteById(id); --> Apaga o registro no banco de dados fisicamente
         var lermedico = repository.getReferenceById(id);
         lermedico.excluir();
 
